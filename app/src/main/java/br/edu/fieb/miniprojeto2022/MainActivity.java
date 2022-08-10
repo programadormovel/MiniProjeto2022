@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import br.edu.fieb.miniprojeto2022.ui.login.LoginActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // Ir para a tela do Menu
-                Intent it = new Intent(MainActivity.this, MenuActivity.class);
+                Intent it = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(it);
             }
         }, 2000);
