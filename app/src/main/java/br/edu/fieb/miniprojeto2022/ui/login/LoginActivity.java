@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import br.edu.fieb.miniprojeto2022.MenuActivity;
 import br.edu.fieb.miniprojeto2022.R;
+import br.edu.fieb.miniprojeto2022.registro.ui.login.RegistroActivity;
 import br.edu.fieb.miniprojeto2022.ui.login.LoginViewModel;
 import br.edu.fieb.miniprojeto2022.ui.login.LoginViewModelFactory;
 import br.edu.fieb.miniprojeto2022.databinding.ActivityLoginBinding;
@@ -48,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
+        final TextView registroButton = binding.txvRegister;
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -126,6 +128,15 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+            }
+        });
+
+        registroButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(LoginActivity.this,
+                        RegistroActivity.class);
+                startActivity(it);
             }
         });
     }

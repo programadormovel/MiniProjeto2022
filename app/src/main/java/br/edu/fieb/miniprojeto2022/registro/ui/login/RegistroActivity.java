@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -24,11 +25,13 @@ import android.widget.Toast;
 
 import java.util.zip.Inflater;
 
+import br.edu.fieb.miniprojeto2022.MenuActivity;
 import br.edu.fieb.miniprojeto2022.R;
 import br.edu.fieb.miniprojeto2022.registro.ui.login.LoggedInUserView;
 import br.edu.fieb.miniprojeto2022.registro.ui.login.RegistroViewModel;
 import br.edu.fieb.miniprojeto2022.registro.ui.login.RegistroViewModelFactory;
 import br.edu.fieb.miniprojeto2022.databinding.ActivityRegistroBinding;
+import br.edu.fieb.miniprojeto2022.ui.login.LoginActivity;
 
 public class RegistroActivity extends AppCompatActivity {
 
@@ -82,7 +85,11 @@ public class RegistroActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_OK);
 
                 //Complete and destroy registro activity once successful
-                finish();
+                // finish();
+
+                Intent it = new Intent(RegistroActivity.this,
+                        LoginActivity.class);
+                startActivity(it);
             }
         });
 
