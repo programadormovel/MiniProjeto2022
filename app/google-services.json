@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "871842133073",
+    "project_id": "miniprojeto2022",
+    "storage_bucket": "miniprojeto2022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871842133073:android:53bad71ad420f58e12b470",
+        "android_client_info": {
+          "package_name": "br.edu.fieb.miniprojeto2022"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871842133073-cj5q8eipikrunc4ghtouvqa23sh3sfpv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsZxjNz8zBcqKYgeanhBUZGHOSKea4qvU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871842133073-cj5q8eipikrunc4ghtouvqa23sh3sfpv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

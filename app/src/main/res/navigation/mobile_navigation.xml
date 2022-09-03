@@ -22,4 +22,9 @@
         android:name="br.edu.fieb.miniprojeto2022.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <activity
+        android:id="@+id/nav_storage"
+        android:name="br.edu.fieb.miniprojeto2022.ui.storage.StorageActivity"
+        android:label="@string/menu_storage"
+        tools:layout="@layout/activity_storage" />
 </navigation>
