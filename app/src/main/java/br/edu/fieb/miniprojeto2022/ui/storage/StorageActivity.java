@@ -2,92 +2,95 @@ package br.edu.fieb.miniprojeto2022.ui.storage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.net.Uri;
 import android.os.Bundle;
 
+import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.fieb.miniprojeto2022.R;
 
 public class StorageActivity extends AppCompatActivity {
 
-    FirebaseStorage storage = FirebaseStorage.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance("gs://miniprojeto2022.appspot.com");
+    StorageAdapter adapter = null;
+    StorageReference listRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storage);
 
-
-        FileInputStream serviceAccount =
-                null;
-        try {
-            serviceAccount = new FileInputStream("app/miniprojeto2022-firebase-adminsdk-swrgg-9b7d00a82d.json");
-
-//            FirebaseOptions options = new FirebaseOptions.Builder()
-//                    .setStorageBucket();
-//
-//            FirebaseApp.initializeApp(options);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-
-
         RecyclerView lista = findViewById(R.id.lista_storage);
-        StorageAdapter adapter;
-        List<StorageModel> listaCapturada = null;
+        LinearLayoutManager layoutManager = new LinearLayoutManager(
+                this, LinearLayoutManager.VERTICAL, false);
 
-        // Create a storage reference from our app
-        StorageReference storageRef = storage.getReference();
-        // Create a child reference
-        // imagesRef now points to "images"
-        StorageReference imagesRef = storageRef.child("/");
+        StorageModel storageModel = new StorageModel();
+        List<StorageModel> listaStorage = new ArrayList<StorageModel>();
+        listaStorage.add(new StorageModel("Teste 1"));
+        listaStorage.add(new StorageModel("Teste 2"));
 
-        // Child references can also take paths
-        // spaceRef now points to "images/space.jpg
-        // imagesRef still points to "images"
-        //StorageReference spaceRef = storageRef.child("images/space.jpg");
+        listRef = storage.getReference(); //.child("images");
 
-        //StorageReference listRef = storage.getReference().child("files/uid");
-
-        imagesRef.listAll()
+        listRef.listAll()
                 .addOnSuccessListener(new OnSuccessListener<ListResult>() {
                     @Override
                     public void onSuccess(ListResult listResult) {
+
                         for (StorageReference prefix : listResult.getPrefixes()) {
                             // All the prefixes under listRef.
                             // You may call listAll() recursively on them.
+
                         }
 
                         for (StorageReference item : listResult.getItems()) {
                             // All the items under listRef.
-                            listaCapturada.add(new StorageModel(item.getName()));
+                            StorageModel modelTemp = buscarImagem(new StorageModel(item.getName()));
+                            listaStorage.add(modelTemp);
                         }
+
+                        lista.setLayoutManager(layoutManager);
+                        adapter = new StorageAdapter(listaStorage);
+                        adapter.notifyDataSetChanged();
+                        lista.setAdapter(adapter);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         // Uh-oh, an error occurred!
+
                     }
                 });
+    }
 
-        lista.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new StorageAdapter(listaCapturada);
-        lista.setAdapter(adapter);
+    private StorageModel buscarImagem(StorageModel model) {
+
+        listRef.child("/" + model.getArquivo()).getBytes(Long.MAX_VALUE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // Use the bytes to display the image
+                model.setFoto(bytes);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+        return model;
     }
 }
